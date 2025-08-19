@@ -160,6 +160,12 @@ class User extends Authenticatable
     }
 
 
+    public  function employee()
+    {
+        return $this->hasOne(Employee::class);
+    }
+
+
     public function departments()
     {
         return $this->belongsToMany(User::class, 'employee_departments');

@@ -13,13 +13,14 @@ return new class extends Migration {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
 
-            // Position relationship
+            //Relationship
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('position_id')
                 ->constrained('positions')
                 ->cascadeOnDelete();
 
             // Unique employee number
-            $table->string('employee_number')->unique();
+            $table->string('employee_number')->unique()->nullable();
 
             // Basic info
             $table->string('first_name', 100);
