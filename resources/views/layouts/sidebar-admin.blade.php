@@ -47,10 +47,12 @@
                             <span >Employees</span >
                         </a >
                         <ul class="nav-group-sub collapse" >
-                            <li class="nav-item" ><a href="{{ route('admin.general-settings.index') }}"
-                                                     class="nav-link" >Employee List</a ></li >
-                            <li class="nav-item" ><a href="{{ route('admin.general-settings.index') }}"
-                                                     class="nav-link" >Employee Benefits</a ></li >
+                            <li class="nav-item" ><a href="{{ route('employee.benefits.index') }}" class="nav-link" >Employee
+                                                                                                                     List</a >
+                            </li >
+                            <li class="nav-item" ><a href="{{ route('employee.benefits.index') }}" class="nav-link" >Employee
+                                                                                                                     Benefits</a >
+                            </li >
 
                         </ul >
                     </li >
@@ -85,6 +87,24 @@
                             <li class="nav-item" ><a href="{{ route('admin.audit-logs.index') }}" class="nav-link" >Activity
                                                                                                                     Logs</a >
                             </li >
+                        </ul >
+                    </li >
+
+
+
+                    <li class="nav-item nav-item-submenu" >
+                        <a class="nav-link" >
+                            <i class="ph-buildings" ></i >
+                            <span >Organization</span >
+                        </a >
+                        <ul class="nav-group-sub collapse" >
+                            <li class="nav-item" ><a href="{{ route('admin.general-settings.index') }}"
+                                                     class="nav-link" >Department</a ></li >
+
+                            <li class="nav-item" ><a href="{{ route('admin.general-settings.index') }}"
+                                                     class="nav-link" >Position</a ></li >
+
+
                         </ul >
                     </li >
                 @endif
