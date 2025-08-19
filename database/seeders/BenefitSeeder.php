@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Benefit;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Position;
@@ -31,7 +32,7 @@ class BenefitSeeder extends Seeder
             ]
         ];
 
-        Position::insert($benefits);
+        Benefit::insert($benefits);
 
     }
 }

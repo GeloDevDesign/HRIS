@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\belongsToMany;
 
 class User extends Authenticatable
 {
@@ -73,10 +74,6 @@ class User extends Authenticatable
     protected static $logOnlyDirty = true;
 
     protected static $logFillable = true;
-
-
-
-
 
 
     public function createdBy()
@@ -144,7 +141,7 @@ class User extends Authenticatable
 
     public function getProfilePicFilenameAttribute()
     {
-    return $this->profile_picture ? str_replace('profile_pictures/', '', $this->profile_picture) : 'default-user-icon.jpg';
+        return $this->profile_picture ? str_replace('profile_pictures/', '', $this->profile_picture) : 'default-user-icon.jpg';
     }
 
     public function getDefaultProfilePicPathAttribute()
@@ -160,6 +157,12 @@ class User extends Authenticatable
     public function isRegularAdmin()
     {
         return $this->type == self::TYPE_REGULAR_ADMIN;
+    }
+
+
+    public function departments()
+    {
+        return $this->belongsToMany(User::class, 'employee_departments');
     }
 
     /**

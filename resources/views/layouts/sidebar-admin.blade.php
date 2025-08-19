@@ -98,7 +98,7 @@
                             <span >Organization</span >
                         </a >
                         <ul class="nav-group-sub collapse" >
-                            <li class="nav-item" ><a href="{{ route('admin.general-settings.index') }}"
+                            <li class="nav-item" ><a href="{{ route('organization.department.index') }}"
                                                      class="nav-link" >Department</a ></li >
 
                             <li class="nav-item" ><a href="{{ route('admin.general-settings.index') }}"

@@ -19,17 +19,17 @@ class PositionSeeder extends Seeder
                 'base_salary' => 20000,
             ],
             [
-                'department_id' => 2,
+                'department_id' => 1,
                 'title' => 'Sr Software Developer',
                 'base_salary' => 120000,
             ],
             [
-                'department_id' => 3,
+                'department_id' => 1,
                 'title' => 'Quality Assurance',
                 'base_salary' => 120000,
             ],
             [
-                'department_id' => 3,
+                'department_id' => 1,
                 'title' => 'Project Manager',
                 'base_salary' => 120000,
             ],
