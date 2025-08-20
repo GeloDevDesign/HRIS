@@ -13,8 +13,10 @@ return new class extends Migration {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
 
-            //Relationship
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            // Relationship
+            $table->foreignId('user_id')->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
             $table->foreignId('position_id')
                 ->constrained('positions')
                 ->cascadeOnDelete();
@@ -26,12 +28,34 @@ return new class extends Migration {
             $table->string('first_name', 100);
             $table->string('last_name', 100);
             $table->string('middle_name', 100)->nullable();
+            $table->enum('suffix', ['Jr', 'Sr', 'II', 'III', 'IV', 'V', 'None'])->default('None');
 
             // Demographics
             $table->enum('gender', ['Male', 'Female'])->default('Male');
-            $table->string('phone_number', 20)->nullable();
+            $table->enum('civil_status', ['Single', 'Married', 'Widowed', 'Separated'])->default('Single');
+            $table->string('nationality', 100)->default('Filipino');
+            $table->string('religion', 100)->nullable();
+            $table->string('blood_type', 3)->nullable();
+            $table->float('height')->nullable(); // cm
+            $table->float('weight')->nullable(); // kg
             $table->date('date_of_birth')->nullable();
+            $table->string('place_of_birth', 255)->nullable();
             $table->string('address', 255)->nullable();
+
+            // Contact
+            $table->string('phone_number', 20)->nullable();
+            $table->string('email', 150)->nullable();
+
+            // Emergency contact
+            $table->string('emergency_contact_name', 150)->nullable();
+            $table->string('emergency_contact_relationship', 100)->nullable();
+            $table->string('emergency_contact_number', 20)->nullable();
+
+            // Government IDs
+            $table->string('sss_number', 20)->nullable();
+            $table->string('philhealth_number', 20)->nullable();
+            $table->string('pagibig_number', 20)->nullable();
+            $table->string('tin_number', 20)->nullable();
 
             // Employment details
             $table->date('hire_date');
@@ -52,11 +76,12 @@ return new class extends Migration {
                 'Suspended'
             ])->default('Active');
 
+            // Other
+            $table->string('photo')->nullable();
 
             $table->softDeletes();
             $table->timestamps();
         });
-
     }
 
     /**

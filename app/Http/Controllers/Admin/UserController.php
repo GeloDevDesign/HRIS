@@ -183,7 +183,7 @@ class UserController extends Controller
             if (!$request->input('has_dp')) {
                 $user->profile_picture = null;
             }
-            
+
             $user->save();
 
             // return redirect()->route('admin.users.index')->withSuccess('User has been updated successfully');
@@ -205,7 +205,7 @@ class UserController extends Controller
             'password' => ['required', 'confirmed', Password::min(8)->numbers()],
             'password_confirmation' => 'exclude_if:password_confirmation,null|same:password|min:8'
         ]);
-        
+
         $user->password = Hash::make($request['password']);
         $user->save();
 

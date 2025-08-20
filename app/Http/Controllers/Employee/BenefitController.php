@@ -19,7 +19,7 @@ class BenefitController extends Controller
             'per_page' => $request->per_page
         ];
 
-        return view('employee.benefits.index', compact('benefits', 'filters'));
+        return view('benefits.index', compact('benefits', 'filters'));
     }
 
 
@@ -33,7 +33,7 @@ class BenefitController extends Controller
             'per_page' => $request->per_page
         ];
 
-        return view('employee.benefits.create', compact('benefits', 'filters'));
+        return view('benefits.create', compact('benefits', 'filters'));
     }
 
 

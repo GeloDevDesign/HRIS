@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Employee\BenefitController;
+use App\Http\Controllers\Employee\EmployeeController;
 
 Route::middleware(['auth.admin'/* , 'XSS' */])
     ->name('employee.')
@@ -8,9 +9,8 @@ Route::middleware(['auth.admin'/* , 'XSS' */])
     ->namespace('App\Http\Controllers\Employee')->group(function () {
 
 
-//    BENEFIT ROUTES
         Route::resource('/benefits', BenefitController::class);
-
+        Route::resource('/employees', EmployeeController::class);
 
 
 
