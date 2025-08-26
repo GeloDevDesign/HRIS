@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->string('first_name', 100);
             $table->string('last_name', 100);
             $table->string('middle_name', 100)->nullable();
-            $table->enum('suffix', ['Jr', 'Sr', 'II', 'III', 'IV', 'V', 'None'])->default('None');
+            $table->enum('suffix', ['Jr', 'Sr', 'II', 'III', 'IV', 'V', 'None'])->nullable();
 
             // Demographics
             $table->enum('gender', ['Male', 'Female'])->default('Male');
@@ -61,7 +61,7 @@ return new class extends Migration {
                 'Intern',
                 'Probationary',
                 'Seasonal'
-            ])->default('Full-time');
+            ])->default('Full-Time');
 
             $table->enum('employment_status', [
                 'Active',

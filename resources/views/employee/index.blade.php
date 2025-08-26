@@ -85,16 +85,18 @@
                     <td >{{ \Carbon\Carbon::parse($employee->hire_date)->format('Y-m-d') }}</td >
 
                     <td >
-                        <x-entity-actions :edit="route('employee.records.edit', $employee->id)"
+                        <x-entity-actions :edit="route('employee.records.edit',$employee->id)"
                                           :entity-id="'employee-' . $employee->id"
                                           :delete="route('employee.records.destroy', $employee->id)"
                                           :name="$employee->first_name . ' ' . $employee->last_name" >
-                            <a href="{{ route('employee.records.show', $employee->id) }}" type="button"
-                               title="View Details"
+                            <a href="{{ route('employee.records.show', $employee) }}" type="button" title="View Details"
                                class="btn btn-warning edit-btn btn-action btn-no-radius btn-square" >
                                 <i class="fas fa-id-card" aria-hidden="true" style="margin-right: 0;" ></i >
                             </a >
+
+
                         </x-entity-actions >
+
                     </td >
 
                 </tr >

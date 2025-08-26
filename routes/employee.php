@@ -13,5 +13,4 @@ Route::middleware(['auth.admin'/* , 'XSS' */])
         Route::resource('/records', EmployeeController::class);
 
 
-
     });

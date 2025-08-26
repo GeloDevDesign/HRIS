@@ -33,7 +33,8 @@
         <div class="col-12 col-md-3 " >
             <x-select :label="'Suffix'" :icon="'ph-user-circle'" name="suffix" id="suffix" >
                 @foreach ($suffixes as $suffix)
-                    <option value="{{ $suffix }}" {{ old('suffix', optional($employee)->suffix) == $suffix ? 'selected' : '' }}>
+                    <option
+                        value="{{ $suffix }}" {{ old('suffix', optional($employee)->suffix) == $suffix ? 'selected' : '' }}>
                         {{ $suffix }}
                     </option >
                 @endforeach
@@ -48,7 +49,8 @@
         <div class="col-12 col-md-3 " >
             <x-select :label="'Gender'" :icon="'ph-user-circle'" name="gender" id="gender" >
                 @foreach ($genders as $gender)
-                    <option value="{{ $gender }}" {{ old('gender', optional($employee)->gender) == $gender ? 'selected' : '' }}>
+                    <option
+                        value="{{ $gender }}" {{ old('gender', optional($employee)->gender) == $gender ? 'selected' : '' }}>
                         {{ $gender }}
                     </option >
                 @endforeach
@@ -60,7 +62,8 @@
         <div class="col-12 col-md-3 " >
             <x-select :label="'Civil Status'" :icon="'ph-heart'" name="civil_status" id="civil_status" >
                 @foreach ($civilStatuses as $civilStatus)
-                    <option value="{{ $civilStatus }}" {{ old('civil_status', optional($employee)->civil_status) == $civilStatus ? 'selected' : '' }}>
+                    <option
+                        value="{{ $civilStatus }}" {{ old('civil_status', optional($employee)->civil_status) == $civilStatus ? 'selected' : '' }}>
                         {{ $civilStatus }}
                     </option >
                 @endforeach
@@ -147,16 +150,18 @@
         </div >
 
         <!-- Email -->
-        <div class="col-12 col-md-3 " >
+        <div class="col-12 col-md-3" >
             <x-select :label="'User Email'" :icon="'ph-check-circle'" name="email" id="email" >
                 @foreach ($userAccounts as $user)
-                    <option value="{{ $user->email }}" {{ old('email', optional($employee)->email) == $user->email ? 'selected' : '' }}>
+                    <option value="{{ $user->email }}"
+                        {{ old('email', optional(optional($employee)->user)->email) == $user->email ? 'selected' : '' }}>
                         {{ $user->email }}
                     </option >
                 @endforeach
             </x-select >
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div >
+
     </div >
 
     <!-- Emergency Contact Information Row -->
@@ -174,7 +179,8 @@
 
         <!-- Emergency Contact Relationship -->
         <div class="col-12 col-md-4 mt-3" >
-            <x-input-label class="label-required" for="emergency_contact_relationship" :value="__('Relationship')" />
+            <x-input-label class="label-required" for="emergency_contact_relationship"
+                           :value="__('Emergency Contact Relationship')" />
             <x-text-input id="emergency_contact_relationship" class="block mt-1 w-full"
                           :error="$errors->get('emergency_contact_relationship')" type="text"
                           name="emergency_contact_relationship" :icon="'ph-users'"
@@ -248,10 +254,12 @@
 
 
         <!-- Position Type -->
+
         <div class="col-12 col-md-4" >
             <x-select :label="'Position'" :icon="'ph-briefcase'" name="position_id" id="position_id" >
                 @foreach ($positions as $position)
-                    <option value="{{ $position->id }}" {{ old('position_id', optional($employee)->position_id) == $position->id ? 'selected' : '' }}>
+                    <option value="{{ $position->id }}"
+                        {{ in_array($position->id, old('position_id', $employee->positions->pluck('id')->toArray())) ? 'selected' : '' }}>
                         {{ $position->title }}
                     </option >
                 @endforeach
@@ -259,18 +267,38 @@
             <x-input-error :messages="$errors->get('position_id')" class="mt-2" />
         </div >
 
+
         <!-- Employment Type -->
         <div class="col-12 col-md-4 " >
-            <x-select :label="'Employment Type'" :icon="'ph-check-circle'" name="employment_type"
-                      id="employment_type" >
+            <x-select :label="'Employment Type'" :icon="'ph-check-circle'" name="employment_type" id="employment_type" >
                 @foreach ( $employmentTypes as $type)
-                    <option value="{{ $type }}" {{ old('employment_type', optional($employee)->employment_type) == $type ? 'selected' : '' }}>
+                    <option
+                        value="{{ $type }}" {{ old('employment_type', optional($employee)->employment_type) == $type ? 'selected' : '' }}>
                         {{ $type }}
                     </option >
                 @endforeach
             </x-select >
             <x-input-error :messages="$errors->get('employment_type')" class="mt-2" />
         </div >
+
+
+        <!-- Employment Status -->
+        @if ($employee->employment_status)
+            <div class="col-12 col-md-4" >
+                <x-select :label="'Employment Status'" :icon="'ph-check-circle'" name="employment_type"
+                          id="employment_status" >
+                    @foreach ($employmentStatus as $status)
+                        <option value="{{ $status }}"
+                            {{ old('employment_type', optional($employee)->employment_status) == $status ? 'selected' : '' }}>
+                            {{ $status }}
+                        </option >
+                    @endforeach
+                </x-select >
+                <x-input-error :messages="$errors->get('employment_type')" class="mt-2" />
+            </div >
+        @endif
+
+
     </div >
 
 </x-entity-form >

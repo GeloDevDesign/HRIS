@@ -102,6 +102,29 @@
     </div>
 </x-card>
 
+
+<x-card heading="Emergency Contact Information">
+    <div class="row">
+        <div class="col-12 col-md-6 mt-3">
+            <x-input-label for="address" :value="'Emergency Contact Name'" />
+            <x-text-input id="address" class="block mt-1 w-full" type="text"
+                          :value="$record->emergency_contact_name" readonly />
+        </div>
+
+        <div class="col-12 col-md-3 mt-3">
+            <x-input-label for="phone_number" :value="'Emergency Contact Number'" />
+            <x-text-input id="phone_number" class="block mt-1 w-full" type="text"
+                          :value="$record->emergency_contact_number" readonly />
+        </div>
+
+        <div class="col-12 col-md-3 mt-3">
+            <x-input-label for="email" :value="'Emergency Contact Relationship'" />
+            <x-text-input id="email" class="block mt-1 w-full" type="text"
+                          :value="$record->emergency_contact_relationship" readonly />
+        </div>
+    </div>
+</x-card>
+
 <!-- Government Details Information Card -->
 <x-card heading="Government Details Information">
     <div class="row">
