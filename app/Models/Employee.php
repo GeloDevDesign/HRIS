@@ -26,14 +26,12 @@ class Employee extends Model
         'civil_status',
         'nationality',
         'religion',
-        'blood_type',
         'height',
         'weight',
         'date_of_birth',
         'place_of_birth',
         'address',
         'phone_number',
-        'email',
         'emergency_contact_name',
         'emergency_contact_relationship',
         'emergency_contact_number',
@@ -45,6 +43,7 @@ class Employee extends Model
         'employment_type',
         'employment_status',
         'photo',
+        'email'
     ];
 
     public function department()
@@ -57,8 +56,10 @@ class Employee extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function position()
+    public function positions()
     {
-        return $this->belongsTo(Position::class);
+        return $this->belongsToMany(Position::class); // defaults to pivot table employee_position
     }
+
+
 }

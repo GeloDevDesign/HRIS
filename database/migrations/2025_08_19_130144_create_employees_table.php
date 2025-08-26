@@ -17,14 +17,10 @@ return new class extends Migration {
             $table->foreignId('user_id')->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
-            $table->foreignId('position_id')
-                ->constrained('positions')
-                ->cascadeOnDelete();
 
-            // Unique employee number
-            $table->string('employee_number')->unique()->nullable();
 
             // Basic info
+            $table->string('employee_number')->unique()->nullable();
             $table->string('first_name', 100);
             $table->string('last_name', 100);
             $table->string('middle_name', 100)->nullable();
@@ -35,7 +31,6 @@ return new class extends Migration {
             $table->enum('civil_status', ['Single', 'Married', 'Widowed', 'Separated'])->default('Single');
             $table->string('nationality', 100)->default('Filipino');
             $table->string('religion', 100)->nullable();
-            $table->string('blood_type', 3)->nullable();
             $table->float('height')->nullable(); // cm
             $table->float('weight')->nullable(); // kg
             $table->date('date_of_birth')->nullable();

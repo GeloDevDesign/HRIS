@@ -74,8 +74,10 @@
             @forelse($employees as $employee)
                 <tr >
                     <td >{{ $employee->employee_number ?? 'N/A' }}</td >
-                    <td >{{ $employee->first_name }} {{ $employee->middle_name }} {{ $employee->last_name }}</td >
-                    <td >{{ $employee->position->name ?? 'N/A' }}</td >
+                    <td >
+                        {{ $employee->user->first_name . ' ' . ($employee->user->middle_name ?? '') . ' ' . $employee->user->last_name }}
+                    </td >
+                    <td >{{ $employee->position->title ?? 'N/A' }}</td >
                     <td >{{ $employee->employment_type }}</td >
                     <td >{{ $employee->employment_status }}</td >
                     <td >{{ \Carbon\Carbon::parse($employee->hire_date)->format('Y-m-d') }}</td >

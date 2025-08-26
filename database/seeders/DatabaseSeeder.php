@@ -22,8 +22,8 @@ class DatabaseSeeder extends Seeder
             GeneralSettingSeeder::class,
             DepartmentSeeder::class,
             PositionSeeder::class,
-            BenefitSeeder::class,
-            EmployeeSeeder::class,
+//            BenefitSeeder::class,
+//            EmployeeSeeder::class,
         ]);
     }
 }

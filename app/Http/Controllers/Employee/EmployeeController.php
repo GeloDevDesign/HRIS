@@ -5,19 +5,17 @@ namespace App\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
 use App\Models\Benefit;
 use App\Models\Employee;
+use App\Models\Position;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class EmployeeController extends Controller
 {
     //
     public function index(Request $request)
     {
-
-        $employees = Employee::with(['user', 'position'])->get()->toArray();
-
-//        dd($employees);
-
-        $employees = Employee::with(['user', 'position'])->paginate($request->per_page ?? 10);
+        $employees = Employee::with(['user', 'positions'])->paginate($request->per_page ?? 10);
 
         $filters = [
             's' => $request->s,
@@ -31,24 +29,115 @@ class EmployeeController extends Controller
     public function create(Request $request)
     {
 
+        $userAccounts = User::whereDoesntHave('employee')->distinct()
+            ->select('id', 'email', 'first_name', 'last_name')
+            ->get();
+
+        $positions = Position::select(['title', 'id'])->distinct()->get();
+
+        $suffixes = ['Jr', 'II', 'III', 'IV', ''];
+        $genders = ['Male', 'Female'];
+        $civilStatuses = ['Single', 'Married', 'Widow'];
+        $employmentTypes = ['Intern', 'Probationary', 'Regular', 'Contractual', 'Part-Time'];
+
         $filters = [
             's' => $request->s,
             'page' => $request->page,
             'per_page' => $request->per_page
         ];
 
-        return view('employee.create', compact('filters'));
+        return view('employee.create', compact(['filters', 'userAccounts', 'suffixes', 'genders', 'civilStatuses', 'positions', 'employmentTypes', 'filters']));
     }
 
 
-    public function store()
+    public function store(Request $request)
     {
+        // Validate input
+        $validated = $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'position_id' => 'required|exists:positions,id',
+            'employee_number' => 'required|unique:employees,employee_number',
+            'first_name' => 'required|max:255',
+            'middle_name' => 'nullable|max:255',
+            'last_name' => 'required|max:255',
+            'suffix' => 'nullable|in:Jr,II,III,IV',
+            'gender' => 'required|in:Male,Female',
+            'civil_status' => 'required|in:Single,Married,Widow',
+            'nationality' => 'required|max:255',
+            'religion' => 'required|max:255',
+            'height' => 'required|numeric',
+            'weight' => 'required|numeric',
+            'date_of_birth' => 'required|date',
+            'place_of_birth' => 'required|max:255',
+            'address' => 'required|max:255',
+            'phone_number' => 'required|max:255',
+            'emergency_contact_name' => 'required|max:255',
+            'emergency_contact_number' => 'required|max:255',
+            'sss_number' => 'required|max:255',
+            'philhealth_number' => 'required|max:255',
+            'pagibig_number' => 'required|max:255',
+            'tin_number' => 'required|max:255',
+            'employment_type' => 'required|in:Intern,Probationary,Regular,Contractual,Part-Time'
+        ]);
 
+        // Find the user that does NOT already have an employee record
+        $user = User::whereDoesntHave('employee')
+            ->where('email', $request->email)
+            ->first();
+
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'Employee email not found or already assigned.'
+            ]);
+        }
+
+        // Create employee record
+        $employee = Employee::create([
+            'employee_number' => $validated['employee_number'],
+            'user_id' => $user->id,
+            'first_name' => $validated['first_name'],
+            'middle_name' => $validated['middle_name'] ?? 'None',
+            'last_name' => $validated['last_name'],
+            'suffix' => $validated['suffix'] ?? 'None',
+            'gender' => $validated['gender'],
+            'civil_status' => $validated['civil_status'],
+            'nationality' => $validated['nationality'],
+            'religion' => $validated['religion'],
+            'height' => $validated['height'],
+            'weight' => $validated['weight'],
+            'date_of_birth' => Carbon::createFromFormat('m/d/Y', $validated['date_of_birth'])->format('Y-m-d'),
+            'place_of_birth' => $validated['place_of_birth'],
+            'address' => $validated['address'],
+            'phone_number' => $validated['phone_number'],
+            'emergency_contact_name' => $validated['emergency_contact_name'],
+            'emergency_contact_number' => $validated['emergency_contact_number'],
+            'sss_number' => $validated['sss_number'],
+            'philhealth_number' => $validated['philhealth_number'],
+            'pagibig_number' => $validated['pagibig_number'],
+            'hire_date' => Carbon::now(),
+            'tin_number' => $validated['tin_number'],
+            'employment_type' => $validated['employment_type'],
+        ]);
+
+
+        // Attach position (assuming Employee has many-to-many relationship with Position)
+        $employee->positions()->attach($validated['position_id']);
+
+        // Redirect with success message
+        return redirect()->route('employee.records.index')
+            ->with('success', 'New Employee created successfully.');
     }
+
 
     public function show()
     {
 
+    }
+
+
+    public function edit()
+    {
+        dd('edit page');
     }
 
 

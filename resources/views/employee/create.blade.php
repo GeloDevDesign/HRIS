@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('banner')
-    <x-banner :current-page="'Create User'" ></x-banner >
+    <x-banner :current-page="'Create New Employee Record'" ></x-banner >
 @endsection
 
 @section('styles')
