@@ -66,32 +66,29 @@
                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" >Action</th >
             </tr >
             </thead >
-            <tbody>
+            <tbody >
             @if ($departments->count() > 0)
                 @foreach ($departments as $index => $department)
-                    <tr>
-{{--                        <td>{{ $departments->firstItem() + $index }}</td>--}}
-                        <td>{{ $department->department_name ?? 'N/A' }}</td>
-                        <td>{{ $department->description ?? 'N/A' }}</td>
-                        <td>{{ $department->manager_id ?? 'N/A' }}</td>
-                        <td>
+                    <tr >
+
+                        <td >{{ $department->department_name ?? 'N/A' }}</td >
+                        <td >{{ $department->description ?? 'N/A' }}</td >
+                        <td >{{ $department->user->first_name . $department->user->last_name  ?? 'N/A' }}</td >
+                        <td >
                             {{-- Example actions --}}
-                            <x-entity-actions
-                                :edit="true"
-                                :view-route="route('organization.department.show', $department)"
-                                :edit-id="$department->id"
-                                :entity-id="$department->id"
-                                :view-unit="true"
-                            />
-                        </td>
-                    </tr>
+                            <x-entity-actions :edit="true"
+                                              :view-route="route('organization.department.show', $department)"
+                                              :edit-id="$department->id" :entity-id="$department->id"
+                                              :view-unit="true" />
+                        </td >
+                    </tr >
                 @endforeach
             @else
-                <tr>
-                    <td colspan="5" class="text-center">No Department Available</td>
-                </tr>
+                <tr >
+                    <td colspan="5" class="text-center" >No Department Available</td >
+                </tr >
             @endif
-            </tbody>
+            </tbody >
 
         </x-table-container >
         {{--        <x-table-pagination :action="route('employee.benefit.index')" :filters="$filters"--}}

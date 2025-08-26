@@ -7,7 +7,6 @@ use App\Models\Department;
 use Illuminate\Http\Request;
 
 
-
 class DepartmentController extends Controller
 {
     //
@@ -15,9 +14,15 @@ class DepartmentController extends Controller
     public function index(Request $request)
     {
         // Fetch the departments with users
-        $departments = Department::with('users')->get();
+        $departments = Department::with('user')->get();
 
-        $filters = [];
+//        dd($departments->toArray());
+
+        $filters = [
+            's' => $request->s,
+            'page' => $request->page,
+            'per_page' => $request->per_page
+        ];
 
         return view('organization.department.index', compact('departments', 'filters'));
     }

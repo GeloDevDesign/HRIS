@@ -18,11 +18,17 @@ class Position extends Model
     ];
 
 
-    public  function employees()
+    public function employees()
     {
         return $this->belongsToMany(Employee::class);
     }
 
+
+    public function department()
+
+    {
+        return $this->belongsTo(Department::class);
+    }
 
 
 }

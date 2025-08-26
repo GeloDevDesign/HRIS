@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\belongsToMany;
 use Illuminate\Database\Eloquent\Relations\belongsTo;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 
 class Department extends Model
 {
@@ -20,9 +21,14 @@ class Department extends Model
     ];
 
 
-    public function users()
+    public function user()
     {
-        return $this->belongsToMany(User::class, 'employee_departments', 'department_id', 'employee_id');
+        return $this->belongsTo(User::class, 'manager_id');
+    }
+
+    public function positons()
+    {
+        return $this->hasMany(Position::class);
     }
 
 }
