@@ -15,7 +15,24 @@ class EmployeeController extends Controller
     //
     public function index(Request $request)
     {
-        $employees = Employee::with(['user', 'positions'])->paginate($request->per_page ?? 10);
+        $query = Employee::with(['user', 'positions']);
+
+        if ($request->filled('s')) {
+            $search = trim($request->s);
+
+            $query->where(function ($q) use ($search) {
+                $q->where('employee_number', 'like', "%{$search}%")
+                    ->orWhere('first_name', 'like', "%{$search}%")
+                    ->orWhere('middle_name', 'like', "%{$search}%")
+                    ->orWhere('last_name', 'like', "%{$search}%")
+                    ->orWhereHas('positions', function ($q2) use ($search) {
+                        $q2->where('title', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        $employees = $query->paginate($request->per_page ?? 10)
+            ->withQueryString();
 
         $filters = [
             's' => $request->s,
@@ -25,6 +42,7 @@ class EmployeeController extends Controller
 
         return view('employee.index', compact('employees', 'filters'));
     }
+
 
     public function create(Request $request)
     {
@@ -129,9 +147,11 @@ class EmployeeController extends Controller
     }
 
 
-    public function show()
+    public function show(Employee $record)
     {
+        $record->load(['user', 'positions']);
 
+        return view('employee.view', compact(['record']));
     }
 
 

@@ -48,13 +48,13 @@
         </a >
     </div >
 
-    <x-filters :action="route('employee.benefits.index')" :has-users="false" :users="$employees" :has-daterange="false"
-               :has-user-type="false" :has-search="true" :search-placeholder="'Benefits Name'" >
+    <x-filters :action="route('employee.records.index')" :has-users="false" :users="$employees" :has-daterange="false"
+               :has-user-type="false" :has-search="true" :search-placeholder="'Employee Name'" >
 
     </x-filters >
 
     <!-- add user starts here -->
-    <x-admin-panel :has-per-page="true" :per-page-route="route('employee.benefits.index')" :filters="$filters" >
+    <x-admin-panel :has-per-page="true" :per-page-route="route('employee.records.index')" :filters="$filters" >
         <x-table-container >
             <thead class="table-head" >
             <tr >
@@ -77,7 +77,9 @@
                     <td >
                         {{ $employee->user->first_name . ' ' . ($employee->user->middle_name ?? '') . ' ' . $employee->user->last_name }}
                     </td >
-                    <td >{{ $employee->position->title ?? 'N/A' }}</td >
+                    <td >
+                        {{ $employee->positions->isNotEmpty() ? $employee->positions->pluck('title')->implode(', ') : 'N/A' }}
+                    </td >
                     <td >{{ $employee->employment_type }}</td >
                     <td >{{ $employee->employment_status }}</td >
                     <td >{{ \Carbon\Carbon::parse($employee->hire_date)->format('Y-m-d') }}</td >
@@ -87,13 +89,14 @@
                                           :entity-id="'employee-' . $employee->id"
                                           :delete="route('employee.records.destroy', $employee->id)"
                                           :name="$employee->first_name . ' ' . $employee->last_name" >
-
-                            <a type="button" title="View Details"
+                            <a href="{{ route('employee.records.show', $employee->id) }}" type="button"
+                               title="View Details"
                                class="btn btn-warning edit-btn btn-action btn-no-radius btn-square" >
                                 <i class="fas fa-id-card" aria-hidden="true" style="margin-right: 0;" ></i >
                             </a >
                         </x-entity-actions >
                     </td >
+
                 </tr >
             @empty
                 <tr >
