@@ -43,12 +43,12 @@
 
 @section('content')
     <div class="text-end mb-4" >
-        <a href="{{route('employee.benefits.create')}}" >
+        <a href="{{route('employee.records.create')}}" >
             <x-button type="button" class="btn-primary pull-right me-2" :action="'add'" >Add New Employee</x-button >
         </a >
     </div >
 
-    <x-filters :action="route('employee.benefits.index')" :has-users="false" :users="$benefits" :has-daterange="false"
+    <x-filters :action="route('employee.benefits.index')" :has-users="false" :users="$employees" :has-daterange="false"
                :has-user-type="false" :has-search="true" :search-placeholder="'Benefits Name'" >
 
     </x-filters >
@@ -61,51 +61,45 @@
                 <th class="sorting sorting_asc" tabindex="0" aria-controls="DataTables_Table_1" aria-sort="ascending" >
                     Employee ID
                 </th >
-                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" >First Name</th >
-                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" >Last Name</th >
-                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" >Middle Name</th >
-                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" >Name Extension</th >
+
+                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" >Name</th >
+                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" >Position</th >
+                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" >Employment Type</th >
+                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" >Employment Status</th >
+                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" >Hire Date</th >
+                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_1" >Action</th >
             </tr >
             </thead >
             <tbody >
-            <td >
-                SSS
-            </td >
-            <td >
-                SSS
-            </td >
+            @forelse($employees as $employee)
+                <tr >
+                    <td >{{ $employee->employee_number ?? 'N/A' }}</td >
+                    <td >{{ $employee->first_name }} {{ $employee->middle_name }} {{ $employee->last_name }}</td >
+                    <td >{{ $employee->position->name ?? 'N/A' }}</td >
+                    <td >{{ $employee->employment_type }}</td >
+                    <td >{{ $employee->employment_status }}</td >
+                    <td >{{ \Carbon\Carbon::parse($employee->hire_date)->format('Y-m-d') }}</td >
 
-            <td >
-                SSS
-            </td >
+                    <td >
+                        <x-entity-actions :edit="route('employee.records.edit', $employee->id)"
+                                          :entity-id="'employee-' . $employee->id"
+                                          :delete="route('employee.records.destroy', $employee->id)"
+                                          :name="$employee->first_name . ' ' . $employee->last_name" >
 
-            <td >
-                SSS
-            </td >
-
-            <td >
-                SSS
-            </td >
-
-            <td >
-                2025-08-31
-            </td >
-
-
-            <td class="actions table-td" >
-                <x-entity-actions :edit="route('admin.users.edit', $user = null)" :entity-id="'user-'.$user->id"
-                                  :no-edit="false" :delete="route('admin.users.destroy', $user = null)"
-                                  :name="$user->first_name . ' ' . $user->last_name"
-                                  :show="route('admin.users.show', $user = null)" >
-                    <a type="button" title="Change Password"
-                       onclick="location.href='{{ route('admin.users.change-password', ['user' => $user->id]) }}'"
-                       class="btn btn-warning edit-btn btn-action btn-no-radius btn-square" >
-                        <i class="fa fa-user-lock" aria-hidden="true" style="margin-right: 0;" ></i >
-                    </a >
-                </x-entity-actions >
-            </td >
-
+                            <a type="button" title="View Details"
+                               class="btn btn-warning edit-btn btn-action btn-no-radius btn-square" >
+                                <i class="fas fa-id-card" aria-hidden="true" style="margin-right: 0;" ></i >
+                            </a >
+                        </x-entity-actions >
+                    </td >
+                </tr >
+            @empty
+                <tr >
+                    <td colspan="7" class="text-center" >No employees found</td >
+                </tr >
+            @endforelse
             </tbody >
+
         </x-table-container >
         {{--        <x-table-pagination :action="route('employee.benefit.index')" :filters="$filters"--}}
         {{--                            :collection="$benefits" ></x-table-pagination >--}}

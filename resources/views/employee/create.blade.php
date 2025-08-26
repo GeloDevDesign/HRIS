@@ -1,137 +1,138 @@
 @extends('layouts.app')
 
 @section('banner')
-   <x-banner :current-page="'Create User'" ></x-banner>
+    <x-banner :current-page="'Create User'" ></x-banner >
 @endsection
 
 @section('styles')
-    <style>
+    <style >
         .file-thumbnail-footer {
             display: none;
         }
+
         .file-preview {
             width: 45% !important;
         }
-    </style>
+    </style >
 @endsection
 
 @section('content')
 
-    <x-card :heading="'User Form'">
-        @include('admin.users.form', [
-                'user' => new \App\Models\User,
-                'action' => route('admin.users.store')
+    <x-card :heading="'Employee Records Form'" >
+        @include('employee.form', [
+                'employee' => new \App\Models\Employee,
+                'action' => route('employee.records.store')
             ])
 
-    </x-card>
+    </x-card >
 
- @endsection
+@endsection
 
 
 @section('scripts')
-<script src="{{ asset('limitless/js/vendor/forms/inputs/passy.js') }}"></script>
-<script src="{{ asset('limitless/demo/pages/form_controls_extended.js') }}"></script>
+    <script src="{{ asset('limitless/js/vendor/forms/inputs/passy.js') }}" ></script >
+    <script src="{{ asset('limitless/demo/pages/form_controls_extended.js') }}" ></script >
 
-{{-- <script src="{{ asset('limitless/js/vendor/uploaders/fileinput/fileinput.min.js') }}"></script> --}}
-{{-- <script src="{{ asset('limitless/demo/pages/uploader_bootstrap.js') }}"></script> --}}
+    {{-- <script src="{{ asset('limitless/js/vendor/uploaders/fileinput/fileinput.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('limitless/demo/pages/uploader_bootstrap.js') }}"></script> --}}
 
-<script src="{{ asset('limitless/js/vendor/media/cropper.min.js') }}"></script>
-{{-- <script src="{{ asset('limitless/demo/pages/extension_image_cropper.js') }}"></script> --}}
+    <script src="{{ asset('limitless/js/vendor/media/cropper.min.js') }}" ></script >
+    {{-- <script src="{{ asset('limitless/demo/pages/extension_image_cropper.js') }}"></script> --}}
 
-<script>
-    $('.generate-text').click(function() {
-        setTimeout(() => {
-            let passVal = $('#password').val();
-            $('#password_confirmation').val(passVal);
-        }, 200);
-    });
-
-    function readURL(input) {
-
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-
-            $('#has_dp').val(1);
-
-            reader.onload = function (e) {
-                $('#imgPrev').attr('src', e.target.result);
-                $('#toCrop').attr('src', e.target.result);
-            }
-            reader.readAsDataURL(input.files[0]);
-
-            document.querySelector('.profile-picture-blob').files = input.files;
-
-            $('.show-btn').removeClass('d-none');
-        }
-    }
-
-    const elBasic = document.querySelector('#toCrop');
-    let cropper = null;
-
-    $('.crop-btn').click(function() {
-        setTimeout(() => {
-
-            var cropOptions = {
-                aspectRatio: 1 / 1,
-            };
-
-            cropper = new Cropper(elBasic, cropOptions);
-            cropper.enable();
-
-        }, 500);
-    });
-
-    $('#doneCropping').click(function() {
-        result = cropper.getCroppedCanvas().toDataURL('image/jpeg');
-        console.log(result);
-        // $('#profile-picture-blob').val(result);
-        let resultBlob = cropper.getCroppedCanvas().toBlob((blob) => {
-            console.log('BLOB DATA', blob);
-
-            let fileName = 'testcrop.jpg';
-            let file = new File([blob],  fileName, {
-                type: "image/jpeg",
-                lastModified: new Date()
-            });
-
-            let container = new DataTransfer();
-            container.items.add(file);
-
-            console.log(container.files);
-
-            document.querySelector('.profile-picture-blob').files = container.files;
+    <script >
+        $('.generate-text').click(function () {
+            setTimeout(() => {
+                let passVal = $('#password').val();
+                $('#password_confirmation').val(passVal);
+            }, 200);
         });
 
-        $('#imgPrev').attr('src', result);
-        $('#toCrop').attr('src', result);
+        function readURL(input) {
 
-        $('#cropProfilePic').modal('hide');
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-        cropper.destroy();
-    });
+                $('#has_dp').val(1);
 
-    $(".profile-picture").change(function(){
-        readURL(this);
-    });
+                reader.onload = function (e) {
+                    $('#imgPrev').attr('src', e.target.result);
+                    $('#toCrop').attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
 
-    $('.remove-pic-btn').click(function() {
-        if (cropper) {
-            cropper.destroy();
+                document.querySelector('.profile-picture-blob').files = input.files;
+
+                $('.show-btn').removeClass('d-none');
+            }
         }
 
-        let defaultUrl = $('#default-pic').val();
+        const elBasic = document.querySelector('#toCrop');
+        let cropper = null;
 
-        $('#has_dp').val(0);
+        $('.crop-btn').click(function () {
+            setTimeout(() => {
 
-        $('#profile-picture').val('');
+                var cropOptions = {
+                    aspectRatio: 1 / 1,
+                };
 
-        document.querySelector('.profile-picture-blob').files = null;
+                cropper = new Cropper(elBasic, cropOptions);
+                cropper.enable();
 
-        $('#imgPrev').attr('src', defaultUrl);
-        $('#toCrop').attr('src', defaultUrl);
+            }, 500);
+        });
 
-        $('.show-btn').addClass('d-none');
-    });
-</script>
+        $('#doneCropping').click(function () {
+            result = cropper.getCroppedCanvas().toDataURL('image/jpeg');
+            console.log(result);
+            // $('#profile-picture-blob').val(result);
+            let resultBlob = cropper.getCroppedCanvas().toBlob((blob) => {
+                console.log('BLOB DATA', blob);
+
+                let fileName = 'testcrop.jpg';
+                let file = new File([blob], fileName, {
+                    type: "image/jpeg",
+                    lastModified: new Date()
+                });
+
+                let container = new DataTransfer();
+                container.items.add(file);
+
+                console.log(container.files);
+
+                document.querySelector('.profile-picture-blob').files = container.files;
+            });
+
+            $('#imgPrev').attr('src', result);
+            $('#toCrop').attr('src', result);
+
+            $('#cropProfilePic').modal('hide');
+
+            cropper.destroy();
+        });
+
+        $(".profile-picture").change(function () {
+            readURL(this);
+        });
+
+        $('.remove-pic-btn').click(function () {
+            if (cropper) {
+                cropper.destroy();
+            }
+
+            let defaultUrl = $('#default-pic').val();
+
+            $('#has_dp').val(0);
+
+            $('#profile-picture').val('');
+
+            document.querySelector('.profile-picture-blob').files = null;
+
+            $('#imgPrev').attr('src', defaultUrl);
+            $('#toCrop').attr('src', defaultUrl);
+
+            $('.show-btn').addClass('d-none');
+        });
+    </script >
 @endsection
 

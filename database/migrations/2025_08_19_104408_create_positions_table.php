@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('department_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('set null');
             $table->string('title', 100);
             $table->decimal('base_salary', 10, 2);
             $table->timestamps();

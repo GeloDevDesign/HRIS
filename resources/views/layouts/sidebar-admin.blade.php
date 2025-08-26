@@ -47,7 +47,7 @@
                             <span>Employees</span>
                         </a>
                         <ul class="nav-group-sub collapse">
-                            <li class="nav-item"><a href="{{ route('employee.employees.index') }}"
+                            <li class="nav-item"><a href="{{ route('employee.records.index') }}"
                                     class="nav-link">Employee
                                     List</a>
                             </li>

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             PositionSeeder::class,
             BenefitSeeder::class,
+            EmployeeSeeder::class,
         ]);
     }
 }

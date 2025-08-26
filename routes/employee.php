@@ -10,7 +10,7 @@ Route::middleware(['auth.admin'/* , 'XSS' */])
 
 
         Route::resource('/benefits', BenefitController::class);
-        Route::resource('/employees', EmployeeController::class);
+        Route::resource('/records', EmployeeController::class);
 
 
 
